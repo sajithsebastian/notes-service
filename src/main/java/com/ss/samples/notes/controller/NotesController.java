@@ -1,13 +1,13 @@
 package com.ss.samples.notes.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +24,13 @@ import com.ss.samples.notes.utis.WordWrap;
 
 
 
+
 @RestController
 @RequestMapping(value = "v1")
 public class NotesController {
+	
+    private static final Logger logger = LoggerFactory.getLogger(NotesController.class);
+
 	
 	@Autowired
 	WordWrap wrapper;
@@ -37,7 +41,7 @@ public class NotesController {
 	@PostMapping(path ="/notes")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public StickyNote createNote(@Valid @RequestBody StickyNote note) {
-		
+		logger.info("createNote note={}",note.getContent());
 		note.setContent(wrapper.recursiveWrap(note.getContent(),23));
 		noteDao.save(note);			 		
 		return note;	
@@ -46,7 +50,7 @@ public class NotesController {
 
 	@GetMapping(path ="/notes/{id}")
 	public StickyNote getNote(@PathVariable int id) {
-		
+		logger.info("getNote id={}",id);
 		//Find Note
 		StickyNote note= noteDao.findOne(id);
 		if(note == null ) {
@@ -59,6 +63,8 @@ public class NotesController {
 
 	@GetMapping(path ="/notes")
 	public List<StickyNote> getNotes() {
+		
+		logger.info("getNotes");
 		
 		//Find Note
 		List<StickyNote> notes= noteDao.findAll();
@@ -73,6 +79,7 @@ public class NotesController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public StickyNote deleteNote(@PathVariable int id) {
 		
+		logger.info("deleteNote id={}",id);
 		//Find Note
 		StickyNote note= noteDao.delete(id);
 		if(note == null ) {

@@ -3,10 +3,13 @@ package com.ss.samples.notes.utis;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class WordWrap {
+	private static final Logger logger = LoggerFactory.getLogger(WordWrap.class);
 
 	public static void main(String[] args) {
 		String sentenceUnwrapped= "Design a word wrap micro service which provides functionality to take an input string and wraps it so that none of the lines are longer than the max length. The lines should not break any word in the middle.";
@@ -21,7 +24,7 @@ public class WordWrap {
 	}
 	
 	public static String recursiveWrap(String text, int limit) {
-		//System.out.println("recursiveWrap");
+		logger.info("recursiveWrap");
 		  if (text.length() > limit) {
 		    // find the last space within limit
 		    int edge = text.substring(0, limit).lastIndexOf(" ");
