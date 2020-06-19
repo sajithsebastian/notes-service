@@ -24,7 +24,7 @@ public class WordWrap {
 	}
 	
 	public static String recursiveWrap(String text, int limit) {
-		logger.info("recursiveWrap");
+		logger.debug("recursiveWrap");
 		  if (text.length() > limit) {
 		    // find the last space within limit
 		    int edge = text.substring(0, limit).lastIndexOf(" ");
